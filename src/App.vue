@@ -1,7 +1,7 @@
 <template>
   <div class="app" id="app">
     <site-header />
-    <main role="main" class="bg-grey-darkest pt-4">
+    <main role="main" class="pt-4">
       <router-view></router-view>
     </main>
   </div>

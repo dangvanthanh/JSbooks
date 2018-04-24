@@ -1,15 +1,22 @@
 <template>
   <div class="container mx-auto p-3">
     <div class="flex flex-wrap">
-      <span class="text-white inline-block mr-2">Filter:</span>
-      <label
-        href="#"
-        class="text-orange-light inline-block mr-2 ml-2 relative"
-        v-for="bookFilter in bookFilters"
-        :key="bookFilter">
-        <input type="radio" :value="bookFilter" v-model="bookFilterSelected" name="book" class="opacity-0 absolute">
-        <span class="hover:underline">{{ bookFilter }}</span>
-      </label>
+      <div class="w-1/2 mt-2">
+        <span class="text-white inline-block mr-2">Filter:</span>
+        <label
+          href="#"
+          class="text-orange-light inline-block mr-2 ml-2 relative"
+          v-for="bookFilter in bookFilters"
+          :key="bookFilter">
+          <input type="radio" :value="bookFilter" v-model="bookFilterSelected" name="book" class="opacity-0 absolute">
+          <span class="hover:underline">{{ bookFilter }}</span>
+        </label>
+      </div>
+      <div class="w-1/2">
+        <div class="text-right">
+          <input type="text" placeholder="Search books" class="px-2 py-2 w-4/5 border border-grey-darker rounded" v-model="bookTitle" @keyup.enter="findBook">
+        </div>
+      </div>
     </div>
     <div class="flex flex-wrap">
       <div v-for="book in books" :key="book.url" class="w-1/2 lg:w-1/3 flex pl-3 pr-3 pt-8 mb-8">
@@ -61,7 +68,8 @@ export default {
       books: [],
       booksList: [],
       bookFilters: ['All', 'Beginner', 'Intermediate', 'Advanced'],
-      bookFilterSelected: 'All'
+      bookFilterSelected: 'All',
+      bookTitle: ''
     }
   },
   filters: {
@@ -84,6 +92,11 @@ export default {
       } else {
         this.books = this.booksList.filter(book => book.level === this.bookFilterSelected);
       }
+    }
+  },
+  methods: {
+    findBook () {
+      this.books = this.booksList.filter(book => book.title.toLowerCase().indexOf(this.bookTitle.toLowerCase()) > -1);
     }
   }
 }
