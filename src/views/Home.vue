@@ -20,34 +20,36 @@
     </div>
     <div class="flex flex-wrap">
       <div v-for="book in books" :key="book.url" class="w-1/2 lg:w-1/3 flex pl-3 pr-3 pt-8 mb-8">
-        <div class="flex flex-col">
-          <div class="flex items-start">
-            <figure class="book w-2/5 relative border border-grey-light">
-							<ul class="book__front list-reset">
-								<li>
-									<img :src="book.cover" alt="" class="w-full h-full align-middle shadow">
-								</li>
-								<li></li>
-							</ul>
-							<ul class="book__page list-reset items-center">
-								<li></li>
-								<li>
-									<a class="book__button inline-block text-center no-underline px-2 py-2 border border-black text-black" :href="book.url" target="_blank">Read</a>
-								</li>
-								<li></li>
-								<li></li>
-								<li></li>
-							</ul>
-							<ul class="book__back list-reset">
-								<li></li>
-								<li></li>
-							</ul>
-							<ul class="book__spin list-reset">
-								<li></li>
-								<li></li>
-							</ul>
+        <div class="flex flex-wrap lg:flex-col">
+          <div class="flex flex-wrap lg:items-start">
+            <figure class="w-full pl-3 lg:pl-0 lg:w-2/5 relative border border-transparent">
+              <div class="book">
+                <ul class="book__front list-reset">
+                  <li>
+                    <img :src="book.cover" alt="" class="w-full h-full align-middle shadow">
+                  </li>
+                  <li></li>
+                </ul>
+                <ul class="book__page list-reset lg:items-center">
+                  <li></li>
+                  <li>
+                    <a class="book__button inline-block text-center no-underline px-2 py-2 border border-black text-black" :href="book.url" target="_blank">Read</a>
+                  </li>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                </ul>
+                <ul class="book__back list-reset">
+                  <li></li>
+                  <li></li>
+                </ul>
+                <ul class="book__spin list-reset">
+                  <li></li>
+                  <li></li>
+                </ul>
+              </div>
 						</figure>
-            <figcaption class="w-3/5 pl-3">
+            <figcaption class="w-full lg:w-3/5 pl-8 pl-4 mt-4">
               <h2 class="text-base mb-1 font-medium"><a :href="book.url" target="_blank" class="text-orange no-underline">{{ book.title }}</a></h2>
               <h3 class="text-sm mb-2 font-normal"><a href="book.authorUrl" target="_blank" class="text-orange-light font-weight">{{ book.author }}</a></h3>
               <p class="text-xs mb-3 text-white">{{ book.level }}</p>
@@ -96,7 +98,15 @@ export default {
   },
   methods: {
     findBook () {
-      this.books = this.booksList.filter(book => book.title.toLowerCase().indexOf(this.bookTitle.toLowerCase()) > -1);
+      let filterBooks = [];
+
+      if (this.bookFilterSelected === 'All') {
+        filterBooks = this.booksList;
+      } else {
+        filterBooks = this.booksList.filter(book => book.level === this.bookFilterSelected);
+      }
+
+      this.books = filterBooks.filter(book => book.title.toLowerCase().indexOf(this.bookTitle.toLowerCase()) > -1);
     }
   }
 }
@@ -117,6 +127,11 @@ input[type="radio"]:checked + span {
 	-webkit-transform-style: preserve-3d;
 	-moz-transform-style: preserve-3d;
 	transform-style: preserve-3d;
+}
+
+.book::before,
+.book::after {
+  border: 0;
 }
 
 .book__button {
