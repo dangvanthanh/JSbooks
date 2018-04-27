@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto p-3">
     <div class="flex flex-wrap">
-      <div class="w-1/2 mt-2">
+      <div class="w-full xl:w-1/2 mt-2">
         <span class="text-white inline-block mr-2">Filter:</span>
         <label
           href="#"
@@ -12,17 +12,22 @@
           <span class="hover:underline">{{ bookFilter }}</span>
         </label>
       </div>
-      <div class="w-1/2">
-        <div class="text-right">
-          <input type="text" placeholder="Search books" class="px-2 py-2 w-4/5 border border-grey-darker rounded" v-model="bookTitle" @keyup.enter="findBook">
+      <div class="w-full xl:w-1/2">
+        <div class="text-right mt-4 xl:mt-0">
+          <input
+            type="text"
+            placeholder="Search book by title..."
+            class="px-2 py-2 w-full border border-grey-darker rounded xl:w-4/5"
+            v-model="bookTitle"
+            @keyup.enter="findBook">
         </div>
       </div>
     </div>
-    <div class="flex flex-wrap">
-      <div v-for="book in books" :key="book.url" class="w-1/2 lg:w-1/3 flex pl-3 pr-3 pt-8 mb-8">
-        <div class="flex flex-wrap lg:flex-col">
-          <div class="flex flex-wrap lg:items-start">
-            <figure class="w-full pl-3 lg:pl-0 lg:w-2/5 relative border border-transparent">
+    <div class="flex flex-wrap mt-6">
+      <div v-for="book in books" :key="book.url" class="w-1/2 lg:w-1/3 xl:w-1/3 flex pl-3 pr-3 pt-8 mb-8">
+        <div class="flex flex-wrap xl:flex-col">
+          <div class="flex flex-wrap xl:items-start">
+            <figure class="w-full pl-3 xl:pl-0 xl:w-2/5 relative border border-transparent">
               <div class="book">
                 <ul class="book__front list-reset">
                   <li>
@@ -30,10 +35,15 @@
                   </li>
                   <li></li>
                 </ul>
-                <ul class="book__page list-reset lg:items-center">
+                <ul class="book__page list-reset xl:items-center">
                   <li></li>
                   <li>
-                    <a class="book__button inline-block text-center no-underline px-2 py-2 border border-black text-black" :href="book.url" target="_blank">Read</a>
+                    <a
+                      class="book__button inline-block text-center no-underline px-2 py-2 border border-black text-black"
+                      :href="book.url"
+                      target="_blank">
+                      Read
+                    </a>
                   </li>
                   <li></li>
                   <li></li>
@@ -49,11 +59,11 @@
                 </ul>
               </div>
 						</figure>
-            <figcaption class="w-full lg:w-3/5 pl-8 pl-4 mt-4">
+            <figcaption class="w-full pl-0 mt-8 xl:w-3/5 xl:pl-8 xl:mt-0">
               <h2 class="text-base mb-1 font-medium"><a :href="book.url" target="_blank" class="text-orange no-underline">{{ book.title }}</a></h2>
               <h3 class="text-sm mb-2 font-normal"><a href="book.authorUrl" target="_blank" class="text-orange-light font-weight">{{ book.author }}</a></h3>
-              <p class="text-xs mb-3 text-white">{{ book.level }}</p>
-              <p class="overflow-hidden text-xs text-white">{{ book.info | formatTruncate }}</p>
+              <p class="text-sm mb-3 text-white">{{ book.level }}</p>
+              <p class="overflow-hidden text-sm text-white">{{ book.info | formatTruncate }}</p>
             </figcaption>
           </div>
         </div>
