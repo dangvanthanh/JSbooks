@@ -61,7 +61,7 @@
 						</figure>
             <figcaption class="w-full pl-0 mt-8 xl:w-3/5 xl:pl-8 xl:mt-0">
               <h2 class="text-base mb-1 font-medium"><a :href="book.url" target="_blank" class="text-orange no-underline">{{ book.title }}</a></h2>
-              <h3 class="text-sm mb-2 font-normal"><a href="book.authorUrl" target="_blank" class="text-orange-light font-weight">{{ book.author }}</a></h3>
+              <h3 class="text-sm mb-2 font-normal"><a :href="book.authorUrl" target="_blank" class="text-orange-light font-weight">{{ book.author }}</a></h3>
               <p class="text-sm mb-3 text-white">{{ book.level }}</p>
               <p class="overflow-hidden text-sm text-white">{{ book.info | formatTruncate }}</p>
             </figcaption>
