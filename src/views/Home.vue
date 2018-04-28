@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="flex flex-wrap mt-6">
-      <div v-for="book in books" :key="book.url" class="w-1/2 lg:w-1/3 xl:w-1/3 flex pl-3 pr-3 pt-8 mb-8">
+      <div v-for="book in books" :key="book.url" class="tile w-1/2 lg:w-1/3 xl:w-1/3 flex pl-3 pr-3 pt-8 mb-8">
         <div class="flex flex-wrap xl:flex-col">
           <div class="flex flex-wrap xl:items-start">
             <figure class="w-full pl-3 xl:pl-0 xl:w-2/5 relative border border-transparent">
@@ -122,10 +122,58 @@ export default {
 }
 </script>
 
-<style scope>
+<style scoped lang="scss">
 input[type="radio"]:checked + span {
   text-decoration: underline;
 }
+
+.tile {
+  animation: .3s cubic-bezier(.25, .25, .25, 1.25) both fade-in;
+}
+
+@for $i from 1 through 100 {
+  .tile {
+    &:nth-child(#{$i}) {
+      animation-delay: $i * (.03s);
+    }
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// .tile {
+//   animation: .4s cubic-bezier(.25, .25, .25, 1.25) both fade-in;
+// }
+
+// @for $i from 1 through 100 {
+//   .tile {
+//     &:nth-child(#{$i}) {
+//       animation-delay: $i * (.02s);
+//     }
+//   }
+// }
+
+// @keyframes fade-in {
+//   0% {
+//     opacity: 0;
+//     transform: translateX(50%) scale(0) rotateZ(-60deg);
+//   }
+
+//   100% {
+//     opacity: 1;
+//     transform: translateX(0) scale(1) rotateZ(0deg);
+//   }
+// }
 
 .book {
 	position: relative;
