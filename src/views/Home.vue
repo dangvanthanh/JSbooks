@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="flex flex-wrap mt-6">
-      <div v-for="book in books" :key="book.url" class="tile w-1/2 lg:w-1/3 xl:w-1/3 flex pl-3 pr-3 pt-8 mb-8">
+      <div v-for="book in books" :key="book.url" class="tile w-1/2 lg:w-1/3 xl:w-1/3 flex pl-3 pr-3 pt-6 mb-6">
         <div class="flex flex-wrap xl:flex-col">
           <div class="flex flex-wrap xl:items-start">
             <figure class="w-full pl-3 xl:pl-0 xl:w-2/5 relative border border-transparent">
@@ -36,7 +36,6 @@
                   <li></li>
                 </ul>
                 <ul class="book__page list-reset xl:items-center">
-                  <li></li>
                   <li>
                     <a
                       class="book__button inline-block text-center no-underline px-2 py-2 border border-black text-black"
@@ -45,9 +44,6 @@
                       Read
                     </a>
                   </li>
-                  <li></li>
-                  <li></li>
-                  <li></li>
                 </ul>
                 <ul class="book__back list-reset">
                   <li></li>
@@ -86,6 +82,10 @@ export default {
   },
   filters: {
     formatTruncate: function (str) {
+      if (str == null) {
+        return '';
+      }
+
       return str.slice(0, 124 > 3 ? 124 - 3 : 124) + '...';
     }
   },
@@ -93,8 +93,9 @@ export default {
     fetch('books.json')
       .then(r => r.json())
       .then(json => {
-        this.books = json.books;
         this.booksList = json.books;
+        this.books = json.books;
+        this.books.sort(this.randomOriginal);
       });
   },
   watch: {
@@ -117,6 +118,9 @@ export default {
       }
 
       this.books = filterBooks.filter(book => book.title.toLowerCase().indexOf(this.bookTitle.toLowerCase()) > -1);
+    },
+    randomOriginal () {
+      return (Math.round(Math.random()) - 0.5);
     }
   }
 }
@@ -151,30 +155,6 @@ input[type="radio"]:checked + span {
   }
 }
 
-// .tile {
-//   animation: .4s cubic-bezier(.25, .25, .25, 1.25) both fade-in;
-// }
-
-// @for $i from 1 through 100 {
-//   .tile {
-//     &:nth-child(#{$i}) {
-//       animation-delay: $i * (.02s);
-//     }
-//   }
-// }
-
-// @keyframes fade-in {
-//   0% {
-//     opacity: 0;
-//     transform: translateX(50%) scale(0) rotateZ(-60deg);
-//   }
-
-//   100% {
-//     opacity: 1;
-//     transform: translateX(0) scale(1) rotateZ(0deg);
-//   }
-// }
-
 .book {
 	position: relative;
 	width: 160px;
@@ -198,7 +178,7 @@ input[type="radio"]:checked + span {
 	-moz-transition: color 0.3s, border-color 0.3s;
 	transition: color 0.3s, border-color 0.3s;
   width: 80%;
-  margin-left: 15px;
+  margin-left: 13px;
 }
 
 /*
@@ -268,9 +248,9 @@ input[type="radio"]:checked + span {
 */
 
 .book__front {
-	-webkit-transform: rotateY(-34deg) translateZ(8px);
-	-moz-transform: rotateY(-34deg) translateZ(8px);
-	transform: rotateY(-34deg) translateZ(8px);
+	-webkit-transform: rotateY(-22deg) translateZ(8px);
+	-moz-transform: rotateY(-22deg) translateZ(8px);
+	transform: rotateY(-22deg) translateZ(8px);
 	z-index: 100;
 }
 
@@ -281,35 +261,10 @@ input[type="radio"]:checked + span {
 }
 
 .book__page li:nth-child(1) {
-	-webkit-transform: rotateY(-28deg);
-	-moz-transform: rotateY(-28deg);
-	transform: rotateY(-28deg);
+	-webkit-transform: rotateY(-24deg);
+	-moz-transform: rotateY(-24deg);
+	transform: rotateY(-24deg);
 }
-
-.book__page li:nth-child(2) {
-	-webkit-transform: rotateY(-30deg);
-	-moz-transform: rotateY(-30deg);
-	transform: rotateY(-30deg);
-}
-
-.book__page li:nth-child(3) {
-	-webkit-transform: rotateY(-32deg);
-	-moz-transform: rotateY(-32deg);
-	transform: rotateY(-32deg);
-}
-
-.book__page li:nth-child(4) {
-	-webkit-transform: rotateY(-34deg);
-	-moz-transform: rotateY(-34deg);
-	transform: rotateY(-34deg);
-}
-
-.book__page li:nth-child(5) {
-	-webkit-transform: rotateY(-36deg);
-	-moz-transform: rotateY(-36deg);
-	transform: rotateY(-36deg);
-}
-
 /*
 	4. position, transform & transition
 */
@@ -371,99 +326,6 @@ input[type="radio"]:checked + span {
 	-webkit-transform: translateZ(-2px);
 	-moz-transform: translateZ(-2px);
 	transform: translateZ(-2px);
-}
-
-/* thickness of cover */
-.book__front li:first-child:after,
-.book__front li:first-child:before,
-.book__front li:last-child:after,
-.book__front li:last-child:before,
-.book__back li:first-child:after,
-.book__back li:first-child:before,
-.book__back li:last-child:after,
-.book__back li:last-child:before,
-.book__spin li:first-child:after,
-.book__spin li:first-child:before,
-.book__spin li:last-child:after,
-.book__spin li:last-child:before {
-	position: absolute;
-	top: 0;
-	left: 0;
-}
-
-/* HARDCOVER front */
-.book__front li:first-child:after,
-.book__front li:first-child:before {
-	width: 4px;
-	height: 100%;
-}
-
-.book__front li:first-child:after {
-	-webkit-transform: rotateY(90deg) translateZ(-2px) translateX(2px);
-	-moz-transform: rotateY(90deg) translateZ(-2px) translateX(2px);
-	transform: rotateY(90deg) translateZ(-2px) translateX(2px);
-}
-
-.book__front li:first-child:before {
-	-webkit-transform: rotateY(90deg) translateZ(158px) translateX(2px);
-	-moz-transform: rotateY(90deg) translateZ(158px) translateX(2px);
-	transform: rotateY(90deg) translateZ(158px) translateX(2px);
-}
-
-.book__front li:last-child:after,
-.book__front li:last-child:before {
-	width: 4px;
-	height: 160px;
-}
-
-.book__front li:last-child:after {
-	-webkit-transform: rotateX(90deg) rotateZ(90deg) translateZ(80px) translateX(-2px) translateY(-78px);
-	-moz-transform: rotateX(90deg) rotateZ(90deg) translateZ(80px) translateX(-2px) translateY(-78px);
-	transform: rotateX(90deg) rotateZ(90deg) translateZ(80px) translateX(-2px) translateY(-78px);
-}
-.book__front li:last-child:before {
-	box-shadow: 0px 0px 30px 5px #333;
-	-webkit-transform: rotateX(90deg) rotateZ(90deg) translateZ(-140px) translateX(-2px) translateY(-78px);
-	-moz-transform: rotateX(90deg) rotateZ(90deg) translateZ(-140px) translateX(-2px) translateY(-78px);
-	transform: rotateX(90deg) rotateZ(90deg) translateZ(-140px) translateX(-2px) translateY(-78px);
-}
-
-/* thickness of cover */
-
-.book__back li:first-child:after,
-.book__back li:first-child:before {
-	width: 4px;
-	height: 100%;
-}
-
-.book__back li:first-child:after {
-	-webkit-transform: rotateY(90deg) translateZ(-2px) translateX(2px);
-	-moz-transform: rotateY(90deg) translateZ(-2px) translateX(2px);
-	transform: rotateY(90deg) translateZ(-2px) translateX(2px);
-}
-.book__back li:first-child:before {
-	-webkit-transform: rotateY(90deg) translateZ(158px) translateX(2px);
-	-moz-transform: rotateY(90deg) translateZ(158px) translateX(2px);
-	transform: rotateY(90deg) translateZ(158px) translateX(2px);
-}
-
-.book__back li:last-child:after,
-.book__back li:last-child:before {
-	width: 4px;
-	height: 160px;
-}
-
-.book__back li:last-child:after {
-	-webkit-transform: rotateX(90deg) rotateZ(90deg) translateZ(80px) translateX(2px) translateY(-78px);
-	-moz-transform: rotateX(90deg) rotateZ(90deg) translateZ(80px) translateX(2px) translateY(-78px);
-	transform: rotateX(90deg) rotateZ(90deg) translateZ(80px) translateX(2px) translateY(-78px);
-}
-
-.book__back li:last-child:before {
-	box-shadow: 10px -1px 80px 20px #666;
-	-webkit-transform: rotateX(90deg) rotateZ(90deg) translateZ(-140px) translateX(2px) translateY(-78px);
-	-moz-transform: rotateX(90deg) rotateZ(90deg) translateZ(-140px) translateX(2px) translateY(-78px);
-	transform: rotateX(90deg) rotateZ(90deg) translateZ(-140px) translateX(2px) translateY(-78px);
 }
 
 /* BOOK SPINE */
@@ -562,31 +424,6 @@ input[type="radio"]:checked + span {
 	-moz-transition-duration: 0.6s;
 	transition-duration: 0.6s;
 }
-
-.book__page > li:nth-child(2) {
-	-webkit-transition-duration: 0.6s;
-	-moz-transition-duration: 0.6s;
-	transition-duration: 0.6s;
-}
-
-.book__page > li:nth-child(3) {
-	-webkit-transition-duration: 0.4s;
-	-moz-transition-duration: 0.4s;
-	transition-duration: 0.4s;
-}
-
-.book__page > li:nth-child(4) {
-	-webkit-transition-duration: 0.5s;
-	-moz-transition-duration: 0.5s;
-	transition-duration: 0.5s;
-}
-
-.book__page > li:nth-child(5) {
-	-webkit-transition-duration: 0.6s;
-	-moz-transition-duration: 0.6s;
-	transition-duration: 0.6s;
-}
-
 /*
 	5. events
 */
@@ -605,42 +442,6 @@ input[type="radio"]:checked + span {
 	-webkit-transition-duration: 1.5s;
 	-moz-transition-duration: 1.5s;
 	transition-duration: 1.5s;
-}
-
-.book:hover > .book__page li:nth-child(2) {
-	-webkit-transform: rotateY(-35deg);
-	-moz-transform: rotateY(-35deg);
-	transform: rotateY(-35deg);
-	-webkit-transition-duration: 1.8s;
-	-moz-transition-duration: 1.8s;
-	transition-duration: 1.8s;
-}
-
-.book:hover > .book__page li:nth-child(3) {
-	-webkit-transform: rotateY(-118deg);
-	-moz-transform: rotateY(-118deg);
-	transform: rotateY(-118deg);
-	-webkit-transition-duration: 1.6s;
-	-moz-transition-duration: 1.6s;
-	transition-duration: 1.6s;
-}
-
-.book:hover > .book__page li:nth-child(4) {
-	-webkit-transform: rotateY(-130deg);
-	-moz-transform: rotateY(-130deg);
-	transform: rotateY(-130deg);
-	-webkit-transition-duration: 1.4s;
-	-moz-transition-duration: 1.4s;
-	transition-duration: 1.4s;
-}
-
-.book:hover > .book__page li:nth-child(5) {
-	-webkit-transform: rotateY(-140deg);
-	-moz-transform: rotateY(-140deg);
-	transform: rotateY(-140deg);
-	-webkit-transition-duration: 1.2s;
-	-moz-transition-duration: 1.2s;
-	transition-duration: 1.2s;
 }
 </style>
 
